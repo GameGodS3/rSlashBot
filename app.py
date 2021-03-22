@@ -46,6 +46,8 @@ def respond():
             # Clear non-alphabets from message
             #text = re.sub(r"\W", "_", text)
             # create the api link for the avatar based on http://avatars.adorable.io/
+            bot.sendMessage(chat_id=chat_id,
+                            text="Hold a sec. Fetching from r/{}".format(text))
             url = "https://www.reddit.com/r/{}.json".format(text)
             r = requests.get(
                 url, headers={'User-agent': 'rSlashBot'}, allow_redirects=True)
@@ -60,10 +62,10 @@ def respond():
 
             title = l["data"]["children"][i]["data"]["title"]
             content = l["data"]["children"][i]["data"]["selftext"]
-            msg_text = "**"+title+"**"+"\n\n"+content
+            msg_text = "*"+title+"*"+"\n\n"+content
 
-            bot.sendMessage(chat_id=chat_id, text=msg_text, parse_mode='Markdown'
-                            reply_to_message_id=msg_id)
+            bot.sendMessage(chat_id=chat_id, text=msg_text,
+                            parse_mode='Markdown', reply_to_message_id=msg_id)
 
         except Exception as e:
             # if things went wrong
