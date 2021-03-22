@@ -55,9 +55,9 @@ def respond():
 
     return 'ok'
 
-@app.route('/setwebhook', methods['GET', 'POST'])
+@app.route('/set_webhook', methods['GET', 'POST'])
 def set_webhook():
-    s = bot.set_webhook(URL)
+    s = bot.set_webhook('{URL}{HOOK}'.format(URL=URL, HOOK=TOKEN))
 
     # debugging prints
     if s:
