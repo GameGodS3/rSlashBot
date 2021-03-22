@@ -1,0 +1,4 @@
+.*
+!/.gitignore
+/primal_code
+/rslashbot/credentials.py
