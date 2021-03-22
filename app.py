@@ -60,12 +60,21 @@ def respond():
             while l["data"]["children"][i]["data"]["stickied"] == True:
                 i += 1
 
+            # Sends text content
             title = l["data"]["children"][i]["data"]["title"]
             content = l["data"]["children"][i]["data"]["selftext"]
             msg_text = "*"+title+"*"+"\n\n"+content
-
             bot.sendMessage(chat_id=chat_id, text=msg_text,
                             parse_mode='Markdown', reply_to_message_id=msg_id)
+
+            # For sending images or gifs
+            latest = l["data"]["children"][i]["data"]
+            format = latest["url"][-3:]
+            formats = ['jpg', 'png']
+            if format in formats:
+                bot.sendPhoto(chat_id=chat_id, photo=latest["url"])
+            elif format == 'gif':
+                bot.sendAnimation(chat_id=chat_id, animation=latest["url"])
 
         except Exception as e:
             # if things went wrong
