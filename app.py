@@ -62,7 +62,7 @@ def respond():
             content = l["data"]["children"][i]["data"]["selftext"]
             msg_text = "**"+title+"**"+"\n\n"+content
 
-            bot.sendMessage(chat_id=chat_id, text=msg_text,
+            bot.sendMessage(chat_id=chat_id, text=msg_text, parse_mode='Markdown'
                             reply_to_message_id=msg_id)
 
         except Exception as e:
