@@ -1,6 +1,6 @@
 from flask import Flask, request
 import telegram
-from rSlashBot.credentials import botToken, botUsername, herokuURL
+from rslashbot.credentials import botToken, botUsername, herokuURL
 
 # Bot API Token
 global bot
@@ -58,7 +58,7 @@ def respond():
     return 'ok'
 
 
-@app.route('/set_webhook', methods['GET', 'POST'])
+@app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
     s = bot.set_webhook('{URL}{HOOK}'.format(URL=herokuURL, HOOK=TOKEN))
 
