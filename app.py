@@ -53,13 +53,16 @@ def respond():
                 f.write(r.content)
             with open('reddit.json', 'r') as f:
                 l = json.load(f)
-            title = l["data"]["children"][0]["data"]["title"]
-            content = l["data"]["children"][0]["data"]["selftext"]
-            title_text = "**"+title+"**"
 
-            bot.sendMessage(chat_id=chat_id, text=title_text,
-                            reply_to_message_id=msg_id)
-            bot.sendMessage(chat_id=chat_id, text=content,
+            i = 0
+            while l["data"]["children"][i]["data"]["stickied"] == True:
+                i += 1
+
+            title = l["data"]["children"][i]["data"]["title"]
+            content = l["data"]["children"][i]["data"]["selftext"]
+            msg_text = "**"+title+"**"+"\n\n"+content
+
+            bot.sendMessage(chat_id=chat_id, text=msg_text,
                             reply_to_message_id=msg_id)
 
         except Exception as e:
