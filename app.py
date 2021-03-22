@@ -48,12 +48,15 @@ def respond():
                 text.strip())
            # reply with a photo to the name the user sent,
            # note that you can send photos by url and telegram will fetch it for you
-           bot.sendPhoto(chat_id=chat_id, photo=url, reply_to_message_id=msg_id)
+            bot.sendPhoto(chat_id=chat_id, photo=url,
+                          reply_to_message_id=msg_id)
         except Exception:
            # if things went wrong
-           bot.sendMessage(chat_id=chat_id, text="There was a problem in the name you used, please enter different name", reply_to_message_id=msg_id)
+            bot.sendMessage(
+                chat_id=chat_id, text="There was a problem in the name you used, please enter different name", reply_to_message_id=msg_id)
 
     return 'ok'
+
 
 @app.route('/set_webhook', methods['GET', 'POST'])
 def set_webhook():
@@ -65,9 +68,11 @@ def set_webhook():
     else:
         return "Webhook setup failed"
 
+
 @app.route('/')
 def index():
     return '.'
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     app.run(threaded=True)
