@@ -1,4 +1,6 @@
 from flask import Flask, request
+import json
+import requests
 import telegram
 from rslashbot.credentials import botToken, botUsername, herokuURL
 
@@ -44,16 +46,28 @@ def respond():
             # Clear non-alphabets from message
             text = re.sub(r"\W", "_", text)
             # create the api link for the avatar based on http://avatars.adorable.io/
-            url = "https://api.adorable.io/avatars/285/{}.png".format(
-                text.strip())
+            url = "https://www.reddit.com/r/{}".format(text.strip())
            # reply with a photo to the name the user sent,
            # note that you can send photos by url and telegram will fetch it for you
-            bot.sendPhoto(chat_id=chat_id, photo=url,
-                          reply_to_message_id=msg_id)
+            r = requests.get(
+                url, headers={'User-agent': 'rSlashBot'}, allow_redirects=True)
+            with open('reddit.json', 'wb') as f:
+                f.write(r.content)
+            with open('reddit.json', 'r') as f:
+                l = json.load(f)
+            title = l["data"]["children"][0]["data"]["title"]
+            content = l["data"]["children"][0]["data"]["selftext"]
+            title_text = "**"+title+"**"
+
+            bot.sendMessage(chat_id=chat_id, text=title_text,
+                            reply_to_message_id=msg_id)
+            bot.sendMessage(chat_id=chat_id, text=content,
+                            reply_to_message_id=msg_id)
+
         except Exception:
-           # if things went wrong
+            # if things went wrong
             bot.sendMessage(
-                chat_id=chat_id, text="There was a problem in the name you used, please enter different name", reply_to_message_id=msg_id)
+                chat_id=chat_id, text="I am sorry. There was an error fetching from that subreddit.", reply_to_message_id=msg_id)
 
     return 'ok'
 
