@@ -44,9 +44,9 @@ def respond():
     else:
         try:
             # Clear non-alphabets from message
-            text = re.sub(r"\W", "_", text)
+            #text = re.sub(r"\W", "_", text)
             # create the api link for the avatar based on http://avatars.adorable.io/
-            url = "https://www.reddit.com/r/{}".format(text.strip())
+            url = "https://www.reddit.com/r/{}".format(text)
            # reply with a photo to the name the user sent,
            # note that you can send photos by url and telegram will fetch it for you
             r = requests.get(
@@ -64,10 +64,11 @@ def respond():
             bot.sendMessage(chat_id=chat_id, text=content,
                             reply_to_message_id=msg_id)
 
-        except Exception:
+        except Exception as e:
             # if things went wrong
             bot.sendMessage(
                 chat_id=chat_id, text="I am sorry. There was an error fetching from that subreddit.", reply_to_message_id=msg_id)
+            print(e)
 
     return 'ok'
 
