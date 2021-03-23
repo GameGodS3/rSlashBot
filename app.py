@@ -88,8 +88,13 @@ def respond():
             elif format == 'gif':
                 bot.sendAnimation(chat_id=chat_id, animation=latest["url"])
 
+<<<<<<< HEAD
 #            bot.sendMessage(chat_id, "http://www.reddit.com" +
                 #      latest["permalink"])
+=======
+            bot.sendMessage(chat_id, "http://www.reddit.com/" +
+                            latest["permalink"])
+>>>>>>> parent of 1ca82a3 (Reddit link syntax correction)
 
         except Exception as e:
             # if things went wrong
