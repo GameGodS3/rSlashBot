@@ -83,12 +83,13 @@ def respond():
             format = latest["url"][-3:]
             formats = ['jpg', 'png']
             if format in formats:
-                bot.sendPhoto(chat_id=chat_id, photo=latest["url"])
+                bot.sendPhoto(
+                    chat_id=chat_id, photo=latest["url"], caption="http://www.reddit.com" + latest["permalink"])
             elif format == 'gif':
                 bot.sendAnimation(chat_id=chat_id, animation=latest["url"])
 
-            bot.sendMessage(chat_id, "http://www.reddit.com" +
-                            latest["permalink"])
+#            bot.sendMessage(chat_id, "http://www.reddit.com" +
+                #      latest["permalink"])
 
         except Exception as e:
             # if things went wrong
