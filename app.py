@@ -87,7 +87,7 @@ def respond():
             elif format == 'gif':
                 bot.sendAnimation(chat_id=chat_id, animation=latest["url"])
 
-            bot.sendMessage(chat_id, "http://www.reddit.com/" +
+            bot.sendMessage(chat_id, "http://www.reddit.com" +
                             latest["permalink"])
 
         except Exception as e:
