@@ -46,6 +46,8 @@ def respond():
             # Clear non-alphabets from message
             #text = re.sub(r"\W", "_", text)
             # create the api link for the avatar based on http://avatars.adorable.io/
+            if text[0:2] == "r/":
+                text = text[2:]
             bot.sendMessage(chat_id=chat_id,
                             text="Hold a sec. Fetching from r/{}".format(text))
             url = "https://www.reddit.com/r/{}.json".format(text)
@@ -64,8 +66,17 @@ def respond():
             title = l["data"]["children"][i]["data"]["title"]
             content = l["data"]["children"][i]["data"]["selftext"]
             msg_text = "*"+title+"*"+"\n\n"+content
-            bot.sendMessage(chat_id=chat_id, text=msg_text,
-                            parse_mode='Markdown', reply_to_message_id=msg_id)
+            if len(msg_text) > 4096:
+                for x in range(0, len(msg_text), 4096):
+                    if x == 0:
+                        bot.sendMessage(
+                            chat_id=chat_id, text=msg_text[x:x+4096], parse_mode='Markdown', reply_to_message_id=msg_id)
+                    else:
+                        bot.sendMessage(
+                            chat_id=chat_id, text=msg_text[x:x+4096], parse_mode='Markdown')
+            else:
+                bot.sendMessage(chat_id=chat_id, text=msg_text,
+                                parse_mode='Markdown', reply_to_message_id=msg_id)
 
             # For sending images or gifs
             latest = l["data"]["children"][i]["data"]
@@ -75,6 +86,9 @@ def respond():
                 bot.sendPhoto(chat_id=chat_id, photo=latest["url"])
             elif format == 'gif':
                 bot.sendAnimation(chat_id=chat_id, animation=latest["url"])
+
+            bot.sendMessage(chat_id, "http://www.reddit.com/" +
+                            latest["permalink"])
 
         except Exception as e:
             # if things went wrong
